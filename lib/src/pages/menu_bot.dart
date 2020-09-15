@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:appauditoria/src/pages/PageAgregarDos.dart';
+import 'package:appauditoria/src/pages/lista.dart';
+import 'package:appauditoria/src/pages/perfil.dart';
 import 'package:flutter/material.dart';
 
 int _selected = 0;
@@ -14,8 +16,8 @@ class MenuBot extends StatefulWidget {
 class _MenuBotState extends State<MenuBot> {
   final List<Widget> _listaw = <Widget>[
     PageAgregarDos(),
-    _pagLista(),
-    _pagPerfil()
+    ListaTrabajos(),
+    PerfilPage()
   ];
 
   @override

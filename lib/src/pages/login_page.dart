@@ -1,8 +1,7 @@
 import 'dart:ui';
-import 'package:appauditoria/src/providers/menu_provider.dart';
-import 'package:appauditoria/src/utils/icono_string_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatelessWidget {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
@@ -68,7 +67,7 @@ class LoginPage extends StatelessWidget {
                 front: Center(
                   child: _cardIngreso(context),
                 ),
-                back: Center(child: _cardRegistro())),
+                back: Center(child: _cardRegistro(context))),
           ),
         ),
       ),
@@ -87,8 +86,8 @@ class LoginPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _insertarLogo(),
-            _crearInput(),
-            _crearPassword(),
+            _crearInput(context),
+            _crearPassword(context),
             _botonIngreso(context),
             _botonGirar(),
           ],
@@ -97,53 +96,62 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _crearInput() {
+  Widget _crearInput(BuildContext context) {
     return Container(
       // duration: Duration(milliseconds: 10000),
       // curve: Curves.fastLinearToSlowEaseIn,
       padding: EdgeInsets.only(left: 0, right: 0, top: 15, bottom: 0),
       width: 280,
       height: 60,
-      child: TextField(
-        // autofocus: true,
-        textCapitalization: TextCapitalization.sentences,
-        decoration: InputDecoration(
-            focusColor: Colors.black,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: Colors.red, width: 1)),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.black, width: 0)),
-            // counter: Text('Letras ${_nombre.length}'),
-            hintText: 'Name',
-            labelText: 'Name',
-            suffixIcon: Icon(
-              Icons.accessibility,
-              color: _inIcon,
-            ),
-            icon: Icon(
-              Icons.account_circle,
-              color: _inIconSelected,
-            )),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          primaryColor: Color.fromRGBO(255, 38, 0, 1),
+        ),
+        child: TextField(
+          // autofocus: true,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: InputDecoration(
+              focusColor: Colors.black,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(color: Colors.red, width: 1)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.black, width: 0)),
+              // counter: Text('Letras ${_nombre.length}'),
+              // hintText: 'Nombre',
+              labelText: 'Nombre',
+              suffixIcon: Icon(
+                Icons.accessibility,
+              ),
+              icon: Icon(
+                Icons.account_circle,
+              )),
+        ),
       ),
     );
   }
 
-  Widget _crearPassword() {
+  Widget _crearPassword(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
       width: 280,
       height: 60,
-      child: TextField(
-        // autofocus: true,
-        obscureText: true,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            hintText: 'Password',
-            labelText: 'Password',
-            suffixIcon: Icon(Icons.security),
-            icon: Icon(Icons.lock)),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          primaryColor: Color.fromRGBO(255, 38, 0, 1),
+        ),
+        child: TextField(
+          // autofocus: true,
+          obscureText: true,
+          decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              // hintText: 'Password',
+              labelText: 'Clave',
+              suffixIcon: Icon(Icons.security),
+              icon: Icon(Icons.lock)),
+        ),
       ),
     );
   }
@@ -181,7 +189,7 @@ class LoginPage extends StatelessWidget {
         width: 160,
         height: 60,
         child: RaisedButton(
-          child: Text('Login'),
+          child: Text('Ingresar'),
           color: Colors.orange,
           textColor: Colors.white,
           shape: StadiumBorder(),
@@ -203,7 +211,28 @@ class LoginPage extends StatelessWidget {
         width: 160,
         height: 60,
         child: RaisedButton(
-          child: Text('flip'),
+          child: Text('Nuevo pintor'),
+          color: Colors.grey[600],
+          textColor: Colors.white,
+          shape: StadiumBorder(),
+          onPressed: () {
+            cardKey.currentState.toggleCard();
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _botonGirarReg() {
+    return Center(
+      widthFactor: 1,
+      heightFactor: 1,
+      child: Container(
+        padding: EdgeInsets.only(left: 0, right: 0, top: 5, bottom: 8),
+        width: 160,
+        height: 60,
+        child: RaisedButton(
+          child: Text('Ingresar'),
           color: Colors.grey[600],
           textColor: Colors.white,
           shape: StadiumBorder(),
@@ -224,7 +253,7 @@ class LoginPage extends StatelessWidget {
         width: 160,
         height: 60,
         child: RaisedButton(
-          child: Text('Register'),
+          child: Text('Registrar'),
           color: Colors.orange,
           textColor: Colors.white,
           shape: StadiumBorder(),
@@ -236,7 +265,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _cardRegistro() {
+  Widget _cardRegistro(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Card(
@@ -248,12 +277,42 @@ class LoginPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _insertarLogo(),
-            _crearInput(),
-            _crearPassword(),
-            _crearPassword(),
+            _crearInput(context),
+            _crearPassword(context),
+            // _crearPassword(context),
+            _codigo(context),
             _botonRegistro(),
-            _botonGirar()
+            _botonGirarReg()
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _codigo(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
+      width: 280,
+      height: 60,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          primaryColor: Color.fromRGBO(255, 38, 0, 1),
+        ),
+        child: TextField(
+          textAlign: TextAlign.center,
+          maxLength: 4,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ], // Only numbers can be entered
+          decoration: InputDecoration(
+              counterText: '',
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              // hintText: 'Password',
+              labelText: 'Codigo',
+              suffixIcon: Icon(Icons.check_circle),
+              icon: Icon(Icons.lock)),
         ),
       ),
     );
